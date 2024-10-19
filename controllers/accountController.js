@@ -18,8 +18,8 @@ const registerUser = asyncHandler (async (req, res) => {
     const { firstName, lastName, email, phoneNumber, username, password } = req.body
 
     if (!firstName || !lastName || !email || !phoneNumber || !username || !password) {
-        res.status(400).json({ message: 'Please fill out all fields' })
-        throw new Error('Please fill out all fields')
+        return res.status(400).json({ message: 'Please fill out all fields' })
+        // throw new Error('Please fill out all fields')
     }
 
     // Check if user exists, COME BACK TO
@@ -31,18 +31,18 @@ const registerUser = asyncHandler (async (req, res) => {
     // console.log(userPhoneNumberExists)
 
     if (userEmailExists) {
-        res.status(400).json({ message: 'User email linked to another account' })
-        throw new Error('User email linked to another account')
+        return res.status(400).json({ message: 'User email linked to another account' })
+        // throw new Error('User email linked to another account')
     }
 
     if (usernameExists) {
-        res.status(400).json({ message: 'Username taken' })
-        throw new Error('Username taken')
+        return res.status(400).json({ message: 'Username taken' })
+        // throw new Error('Username taken')
     }
 
     if (userPhoneNumberExists) {
-        res.status(400).json({ message: 'User phone number linked to another account' })
-        throw new Error('User phone number linked to another account')
+        return res.status(400).json({ message: 'User phone number linked to another account' })
+        // throw new Error('User phone number linked to another account')
     }
 
     // Hash password
@@ -69,8 +69,8 @@ const registerUser = asyncHandler (async (req, res) => {
             token: generateToken(user._id)
         })
     } else {
-        res.status(400).json({ message: 'Invalid user data' })
-        throw new Error ('Invalid user data')
+        return res.status(400).json({ message: 'Invalid user data' })
+        // throw new Error ('Invalid user data')
     }
 })
 
@@ -83,23 +83,17 @@ const login = asyncHandler (async (req, res) => {
     const user = await User.findOne({username})
 
     if (!username || !password) {
-        res.status(400).json({ message: 'Please enter a username and password' })
-        throw new Error('Please enter a username and password')
+        return res.status(400).json({ message: 'Please enter a username and password' })
+        // throw new Error('Please enter a username and password')
     }
 
     if (user && (await argon2.verify(user.password, password))) {
         res.json({
-            _id: user.id,
-            firstName: user.firstName,
-            lastName: user.lastName,
-            email: user.email,
-            phoneNumber: user.phoneNumber,
-            username: user.username,
             token: generateToken(user._id)
         })
     } else {
-        res.status(400).json({ message: 'Username or password incorrect' })
-        throw new Error('Username or password incorrect')
+        return res.status(400).json({ message: 'Username or password incorrect' })
+        // throw new Error('Username or password incorrect')
     }
 })
 
