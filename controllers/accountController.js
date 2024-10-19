@@ -18,7 +18,7 @@ const registerUser = asyncHandler (async (req, res) => {
     const { firstName, lastName, email, phoneNumber, username, password } = req.body
 
     if (!firstName || !lastName || !email || !phoneNumber || !username || !password) {
-        res.status(406)
+        res.status(400).json({ message: 'Please fill out all fields' })
         throw new Error('Please fill out all fields')
     }
 
@@ -26,22 +26,22 @@ const registerUser = asyncHandler (async (req, res) => {
     const userEmailExists = await User.findOne({email})
     const usernameExists = await User.findOne({username})
     const userPhoneNumberExists = await User.findOne({phoneNumber})
-    console.log(userEmailExists)
-    console.log(usernameExists)
-    console.log(userPhoneNumberExists)
+    // console.log(userEmailExists)
+    // console.log(usernameExists)
+    // console.log(userPhoneNumberExists)
 
     if (userEmailExists) {
-        res.status(401)
+        res.status(400).json({ message: 'User email linked to another account' })
         throw new Error('User email linked to another account')
     }
 
     if (usernameExists) {
-        res.status(402)
+        res.status(400).json({ message: 'Username taken' })
         throw new Error('Username taken')
     }
 
     if (userPhoneNumberExists) {
-        res.status(405)
+        res.status(400).json({ message: 'User phone number linked to another account' })
         throw new Error('User phone number linked to another account')
     }
 
@@ -69,7 +69,7 @@ const registerUser = asyncHandler (async (req, res) => {
             token: generateToken(user._id)
         })
     } else {
-        res.status(400)
+        res.status(400).json({ message: 'Invalid user data' })
         throw new Error ('Invalid user data')
     }
 })
@@ -83,7 +83,7 @@ const login = asyncHandler (async (req, res) => {
     const user = await User.findOne({username})
 
     if (!username || !password) {
-        res.status(401)
+        res.status(400).json({ message: 'Please enter a username and password' })
         throw new Error('Please enter a username and password')
     }
 
@@ -98,7 +98,7 @@ const login = asyncHandler (async (req, res) => {
             token: generateToken(user._id)
         })
     } else {
-        res.status(400)
+        res.status(400).json({ message: 'Username or password incorrect' })
         throw new Error('Username or password incorrect')
     }
 })
