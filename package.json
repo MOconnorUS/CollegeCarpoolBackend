@@ -1,0 +1,11 @@
+{
+  "name": "collegecarpoolbackend",
+  "version": "1.0.0",
+  "description": "Hackathon OHI/O 12",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Matthew O'Connor, John Bruscino, Max Emerine",
+  "license": "MIT"
+}
