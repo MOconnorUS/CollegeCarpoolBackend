@@ -16,6 +16,7 @@ app.use(cors())
 
 
 app.use('/api/accounts', require('./routes/accountRoutes'))
+app.use('/api/car', require('./routes/carRoutes'))
 
 app.use(errorHandler)
 

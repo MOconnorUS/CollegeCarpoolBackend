@@ -7,7 +7,6 @@ const User = require('../models/accountModel')
 const generateToken = (id) => {
     return jwt.sign({ id }, process.env.JWT_SECRET, {
         expiresIn: '30d',
-
     })
 }
 
@@ -22,7 +21,6 @@ const registerUser = asyncHandler (async (req, res) => {
         // throw new Error('Please fill out all fields')
     }
 
-    // Check if user exists, COME BACK TO
     const userEmailExists = await User.findOne({email})
     const usernameExists = await User.findOne({username})
     const userPhoneNumberExists = await User.findOne({phoneNumber})
@@ -89,6 +87,7 @@ const login = asyncHandler (async (req, res) => {
 
     if (user && (await argon2.verify(user.password, password))) {
         res.json({
+            user,
             token: generateToken(user._id)
         })
     } else {
