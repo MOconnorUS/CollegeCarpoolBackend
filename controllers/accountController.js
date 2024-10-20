@@ -79,6 +79,11 @@ const login = asyncHandler (async (req, res) => {
     const { username, password } = req.body
     
     const user = await User.findOne({username})
+    const retUsername = user.username
+    const retFirstName = user.firstName
+    const retLastName = user.lastName
+    const retEmail = user.email
+    const retPhoneNumber = user.phoneNumber
 
     if (!username || !password) {
         return res.status(400).json({ message: 'Please enter a username and password' })
@@ -87,7 +92,11 @@ const login = asyncHandler (async (req, res) => {
 
     if (user && (await argon2.verify(user.password, password))) {
         res.json({
-            user,
+            username: retUsername,
+            firstName: retFirstName,
+            lastName: retLastName,
+            email: retEmail,
+            phoneNumber: retPhoneNumber,
             token: generateToken(user._id)
         })
     } else {
