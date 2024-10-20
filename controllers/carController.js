@@ -78,7 +78,7 @@ const getCars = asyncHandler (async (req, res) => {
     }
 })
 
-// @desc Deletes car
+// @desc Removes car
 // @route DELETE /api/car/removeCar
 // @access Public
 const removeCar = asyncHandler (async (req, res) => {
